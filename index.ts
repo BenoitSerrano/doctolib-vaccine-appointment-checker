@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const AVAILABLE_APPOINTMENTS_THRESHOLD_TO_SEND_NOTIFICATION = 5;
+
 function main() {
   fetchAvailabilitiesFromDoctolib();
 }
@@ -37,10 +39,10 @@ async function fetchAvailabilitiesFromDoctolib() {
   });
   const { data: availabilitiesData } = await axios.get(availabilitiesRequest);
   const total = availabilitiesData.total;
-  console.log(`Found ${total} availibilities at ${centerName}`);
+  console.log(`Found ${total} availabilities at ${centerName}`);
 
-  if (total > 0) {
-    sendSms();
+  if (total > AVAILABLE_APPOINTMENTS_THRESHOLD_TO_SEND_NOTIFICATION) {
+    await sendSms();
   }
 }
 
@@ -59,8 +61,12 @@ function buildAvailabilitiesRequest(params: {
   }&agenda_ids=${params.agendaIds.join("-")}&start_date=${startDate}`;
 }
 
-function sendSms() {
-  console.log("SMS");
+async function sendSms() {
+  return axios.post("https://smsapi.free-mobile.fr/sendmsg", {
+    user: process.env.FREE_MOBILE_USER,
+    pass: process.env.FREE_MOBILE_PASS,
+    msg: "",
+  });
 }
 
 main();
