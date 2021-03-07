@@ -1,4 +1,5 @@
 import axios from "axios";
+import { notificationService } from "./services/notificationService";
 
 const AVAILABLE_APPOINTMENTS_THRESHOLD_TO_SEND_NOTIFICATION = 5;
 
@@ -43,7 +44,7 @@ async function fetchAvailabilitiesFromDoctolib() {
 
   if (total > AVAILABLE_APPOINTMENTS_THRESHOLD_TO_SEND_NOTIFICATION) {
     const message = `Rendez-vous disponible à ${centerName}`;
-    await sendSms(message);
+    await notificationService.sendSms(message);
   }
 }
 
@@ -60,14 +61,6 @@ function buildAvailabilitiesRequest(params: {
   return `https://www.doctolib.fr/availabilities.json?visit_motive_ids=${
     params.visitMotiveId
   }&agenda_ids=${params.agendaIds.join("-")}&start_date=${startDate}`;
-}
-
-async function sendSms(message: string) {
-  return axios.post("https://smsapi.free-mobile.fr/sendmsg", {
-    user: process.env.FREE_MOBILE_USER,
-    pass: process.env.FREE_MOBILE_PASS,
-    msg: message,
-  });
 }
 
 main();
