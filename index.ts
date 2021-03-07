@@ -11,6 +11,7 @@ async function fetchAvailabilitiesFromDoctolib() {
   const bookingRequest = buildBookingRequest();
   const { data: bookingData } = await axios.get(bookingRequest);
   const centerName = bookingData.data.profile.name_with_title_and_determiner;
+  const centerId = bookingData.data.profile.id;
 
   const hasAvailability = bookingData.data.agendas.some(
     (agenda: { booking_disabled: boolean }) => !agenda.booking_disabled
@@ -42,9 +43,12 @@ async function fetchAvailabilitiesFromDoctolib() {
   const total = availabilitiesData.total;
   console.log(`Found ${total} availabilities at ${centerName}`);
 
-  if (total > AVAILABLE_APPOINTMENTS_THRESHOLD_TO_SEND_NOTIFICATION) {
+  const shouldNotificationBeSent =
+    total > AVAILABLE_APPOINTMENTS_THRESHOLD_TO_SEND_NOTIFICATION &&
+    !notificationService.hasNotificationBeenSentRecently(centerId);
+  if (shouldNotificationBeSent) {
     const message = `Rendez-vous disponible à ${centerName}`;
-    await notificationService.sendSms(message);
+    await notificationService.sendNotification(centerId, message);
   }
 }
 
