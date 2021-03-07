@@ -2,7 +2,7 @@
 
 name: Check for vaccine availibilities
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   push:
   workflow_dispatch:
@@ -20,11 +20,11 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      
+
       - name: Install dependencies
         run: yarn
-        
+
       - name: Run main
-        run: python main.py
+        run: yarn startGithubAction
         env:
-          CENTER_SLUG: ${{ secrets.FREE_USER }}
+          CENTER_SLUG: ${{ secrets.CENTER_SLUG }}
