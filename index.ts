@@ -40,6 +40,7 @@ async function fetchAvailabilitiesFromDoctolib() {
   console.log(`Found ${total} availibilities at ${centerName}`);
 
   if (total > 0) {
+    sendSms();
   }
 }
 
@@ -56,6 +57,10 @@ function buildAvailabilitiesRequest(params: {
   return `https://www.doctolib.fr/availabilities.json?visit_motive_ids=${
     params.visitMotiveId
   }&agenda_ids=${params.agendaIds.join("-")}&start_date=${startDate}`;
+}
+
+function sendSms() {
+  console.log("SMS");
 }
 
 main();
