@@ -1,6 +1,6 @@
 # Doctolib vaccine appointment checker
 
-This script regularly checks whether new appointments for COVID vaccination have been released. Whenever it occurs, an email is sent to the set email address.
+This script checks every 10 minutes whether new appointments for COVID vaccination have been released. Whenever it occurs, a SMS is sent to the set phone number.
 
 ## How to run
 
@@ -24,3 +24,7 @@ This script regularly checks whether new appointments for COVID vaccination have
 - Go to Settings > Environments > staging > Environment secrets
 
 - For every value in `env.example`, add the corresponding secret variable in the `staging` environment
+
+## Credits
+
+The concept and the algorithm are directly inspired from the @AntoineAugusti Python script [here](https://github.com/AntoineAugusti/doctolib-vaccins)
