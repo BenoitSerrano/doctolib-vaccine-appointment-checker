@@ -1,0 +1,7 @@
+{
+  "name": "doctolib-vaccine-appointment-checker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Benoit Serrano <benoit.serrano10@gmail.com>",
+  "license": "MIT"
+}
