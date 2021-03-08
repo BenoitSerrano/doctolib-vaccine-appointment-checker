@@ -1,7 +1,7 @@
 import axios from "axios";
 import { notificationService } from "./services/notificationService";
 
-const AVAILABLE_APPOINTMENTS_THRESHOLD_TO_SEND_NOTIFICATION = 5;
+const AVAILABLE_APPOINTMENTS_THRESHOLD_TO_SEND_NOTIFICATION = 2;
 
 function main() {
   fetchAvailabilitiesFromDoctolib();
