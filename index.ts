@@ -43,9 +43,13 @@ async function fetchAvailabilitiesFromDoctolib() {
   const total = availabilitiesData.total;
   console.log(`Found ${total} availabilities at ${centerName}`);
 
+  const hasNotificationBeenSentRecently = await notificationService.hasNotificationBeenSentRecently(
+    centerId
+  );
   const shouldNotificationBeSent =
     total > AVAILABLE_APPOINTMENTS_THRESHOLD_TO_SEND_NOTIFICATION &&
-    !notificationService.hasNotificationBeenSentRecently(centerId);
+    !hasNotificationBeenSentRecently;
+
   if (shouldNotificationBeSent) {
     const message = `Rendez-vous disponible à ${centerName}`;
     await notificationService.sendNotification(centerId, message);
