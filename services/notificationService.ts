@@ -12,9 +12,18 @@ const notificationService = {
   sendNotification,
 };
 
-async function sendNotification(id: string, message: string) {
+type notificationType = "SMS";
+
+async function sendNotification(
+  id: string,
+  message: string,
+  notificationMean: notificationType
+) {
   await storeNotificationSent(id);
-  await sendSms(message);
+  switch (notificationMean) {
+    case "SMS":
+      await sendSms(message);
+  }
 }
 
 async function storeNotificationSent(id: string) {
