@@ -1,8 +1,11 @@
 import axios from "axios";
-import * as path from "path";
-import { promises as fs } from "fs";
+import { jsonParser } from "../utils/jsonParser";
 
 export { notificationService };
+
+type notificationFileType = Record<string, Date>;
+
+const notificationPathname = "services/notifications.json";
 
 const notificationService = {
   hasNotificationBeenSentRecently,
@@ -15,19 +18,20 @@ async function sendNotification(id: string, message: string) {
 }
 
 async function storeNotificationSent(id: string) {
-  const lastNotificationDateById = await parseNotificationFile();
+  const lastNotificationDateById = await jsonParser.parse<notificationFileType>(
+    notificationPathname
+  );
   lastNotificationDateById[id] = new Date();
 
-  return fs.writeFile(
-    path.resolve("services/notifications.json"),
-    JSON.stringify(lastNotificationDateById)
-  );
+  return jsonParser.store(lastNotificationDateById);
 }
 
 async function hasNotificationBeenSentRecently(id: string) {
   const DELAY_THRESHOLD = 3 * 3600 * 1000;
 
-  const lastNotificationDateById = await parseNotificationFile();
+  const lastNotificationDateById = await jsonParser.parse<notificationFileType>(
+    notificationPathname
+  );
   if (!lastNotificationDateById[id]) {
     return false;
   }
@@ -35,18 +39,6 @@ async function hasNotificationBeenSentRecently(id: string) {
   const now = Date.now();
 
   return lastNotificationDate.getTime() + DELAY_THRESHOLD > now;
-}
-
-async function parseNotificationFile() {
-  const notificationsFileContent = await fs.readFile(
-    path.resolve("services/notifications.json"),
-    { encoding: "utf-8" }
-  );
-
-  const lastNotificationDateById: Record<string, Date> = JSON.parse(
-    notificationsFileContent
-  );
-  return lastNotificationDateById;
 }
 
 async function sendSms(message: string) {
