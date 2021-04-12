@@ -3,6 +3,8 @@ name: Check for vaccine availibilities
 on:
   push:
   workflow_dispatch:
+  schedule:
+    - cron: "*/30 * * * *"
 
 jobs:
   build:
