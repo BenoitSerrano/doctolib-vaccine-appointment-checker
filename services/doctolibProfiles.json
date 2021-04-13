@@ -1,9 +1,6 @@
 [
   {
-    "centerSlugs": [
-      "cpts-de-l-est-lyonnais-copsel",
-      "centre-de-vaccination-covid-19-pays-mornantais"
-    ],
+    "centerSlugs": ["cpts-de-l-est-lyonnais-copsel"],
     "notificationMean": "SMS",
     "vaccines": ["AstraZeneca"]
   }
