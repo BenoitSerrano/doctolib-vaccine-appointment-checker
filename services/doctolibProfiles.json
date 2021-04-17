@@ -1,6 +1,10 @@
 [
   {
-    "centerSlugs": ["cpts-de-l-est-lyonnais-copsel"],
+    "centerSlugs": [
+      "cpts-de-l-est-lyonnais-copsel",
+      "pharmacie-wimmer-lyon-7-bertrand-wimmer",
+      "pharmacie-des-allagniers"
+    ],
     "notificationMean": "SMS",
     "vaccines": ["AstraZeneca"]
   }
